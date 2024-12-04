@@ -14,16 +14,16 @@ Start the container:
 	--detach \
 	--publish 3493:3493 \
 	--device /dev/bus/usb/xxx/yyy \
-	--env UPS_NAME="" \
-	--env UPS_DESC="" \
-	--env UPS_DRIVER="" \
-	--env UPS_PORT="" \
-	--env API_USER="" \
-	--env API_PASSWORD="" \
-	--env ADMIN_USER="" \
-	--env ADMIN_PASSWORD="" \
+	--env UPS_NAME="ups" \
+	--env UPS_DESC="eaton570i" \
+	--env UPS_DRIVER="usbhid-ups" \
+	--env UPS_PORT="auto" \
+	--env API_USER="upsmon" \
+	--env API_PASSWORD="secret" \
+	--env ADMIN_USER="admin" \
+	--env ADMIN_PASSWORD="adminSecret" \
 	--env SHUTDOWN_CMD="my-shutdown-command-from-container" \
-	upshift/nut-upsd
+	viktorfreire/nut-upsd
 ```
 
 ## Auto configuration via environment variables
@@ -38,7 +38,7 @@ The name of the UPS.
 
 ### UPS_DESC
 
-*Default value*: `Eaton 5SC`
+*Default value*: `eaton570i`
 
 This allows you to set a brief description that upsd will provide to clients that ask for a list of connected equipment.
 
