@@ -6,14 +6,15 @@ Docker image for Network UPS Tools server v2.7.4.
 
 This image provides a complete UPS monitoring service (USB driver only).
 
-Start the container:
+Start directly the container:
 
 ```console
-# docker run \
+# Example with default values 
+docker run \
 	--name nut-upsd \
 	--detach \
 	--publish 3493:3493 \
-	--device /dev/bus/usb/xxx/yyy \
+	--device /dev/bus/usb/001/001 \
 	--env UPS_NAME="ups" \
 	--env UPS_DESC="eaton570i" \
 	--env UPS_DRIVER="usbhid-ups" \
@@ -24,6 +25,31 @@ Start the container:
 	--env ADMIN_PASSWORD="adminSecret" \
 	--env SHUTDOWN_CMD="my-shutdown-command-from-container" \
 	viktorfreire/nut-upsd
+```
+
+Start the container using Docker Compose
+```console
+#Example with default values
+version: "3.4"
+services:
+  nut-upsd:
+    container_name: nut-upsd
+    pull_policy: always
+    image: viktorfreire/nut-upsd
+    network_mode: "host"
+    environment:
+      - UPS_NAME="ups"
+      - UPS_DESC="eaton570i"
+      - UPS_DRIVER="usbhid-ups"
+      - UPS_PORT="auto"
+      - API_USER="upsmon"
+	  - API_PASSWORD="secret"
+      - ADMIN_USER="admin"
+      - ADMIN_PASSWORD="adminSecret"
+      - SHUTDOWN_CMD="my-shutdown-command-from-container"
+    devices:
+      - /dev/bus/usb/001/001
+    restart: unless-stopped
 ```
 
 ## Auto configuration via environment variables
