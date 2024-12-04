@@ -1,16 +1,20 @@
 FROM alpine:3.12
 
-LABEL maintainer="docker@upshift.fr"
+LABEL maintainer="docker@viktorfreire"
 
 ENV NUT_VERSION 2.7.4
 
 ENV UPS_NAME="ups"
-ENV UPS_DESC="UPS"
+ENV UPS_DESC="eaton750i"
 ENV UPS_DRIVER="usbhid-ups"
+
+ENV DEFAULT_PORT=3493
 ENV UPS_PORT="auto"
 
-ENV API_PASSWORD=""
-ENV ADMIN_PASSWORD=""
+ENV API_USER="upsmon"
+ENV API_PASSWORD="secret"
+ENV ADMIN_USER="admin"
+ENV ADMIN_PASSWORD="adminSecret"
 
 ENV SHUTDOWN_CMD="echo 'System shutdown not configured!'"
 
@@ -60,6 +64,7 @@ RUN set -ex; \
 	apk del .build-deps
 
 COPY src/docker-entrypoint /usr/local/bin/
+COPY scripts/shutdown /etc/nut/
 ENTRYPOINT ["docker-entrypoint"]
 
 WORKDIR /var/run/nut

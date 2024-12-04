@@ -1,6 +1,6 @@
 # Network UPS Tools server
 
-Docker image for Network UPS Tools server.
+Docker image for Network UPS Tools server v2.7.4.
 
 ## Usage
 
@@ -14,13 +14,21 @@ Start the container:
 	--detach \
 	--publish 3493:3493 \
 	--device /dev/bus/usb/xxx/yyy \
+	--env UPS_NAME="" \
+	--env UPS_DESC="" \
+	--env UPS_DRIVER="" \
+	--env UPS_PORT="" \
+	--env API_USER="" \
+	--env API_PASSWORD="" \
+	--env ADMIN_USER="" \
+	--env ADMIN_PASSWORD="" \
 	--env SHUTDOWN_CMD="my-shutdown-command-from-container" \
 	upshift/nut-upsd
 ```
 
 ## Auto configuration via environment variables
 
-This image supports customization via environment variables.
+This image supports total customization via environment variables.
 
 ### UPS_NAME
 
@@ -58,9 +66,21 @@ This is the username used for communication between upsmon and upsd processes.
 
 This is the password for the upsmon user.
 
+### ADMIN_USER
+
+*Default vaue*: `admin`
+
+This is the username used for administration.
+
+### ADMIN_PASSWORD
+
+*Default vaue*: `adminSecret`
+
+This is the password for the admin user.
+
 ### SHUTDOWN_CMD
 
 *Default vaue*: `echo 'System shutdown not configured!'`
 
 This is the command upsmon will run when the system needs to be brought down. The command will be run from inside the container.
-
+Can also be provided the location of the script that it's intended to be executed when the UPS is running low battery lvl.

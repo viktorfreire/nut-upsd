@@ -1,5 +1,15 @@
 #!/bin/sh -ex
 
+# Check the value of MY_VARIABLE and expose the appropriate port
+if [ "$UPS_PORT" == "auto" ]; 
+then 
+	echo "UPS_PORT is set to auto. Exposing default port $DEFAULT_PORT." 
+	export PORT=$DEFAULT_PORT 
+else 
+	echo "UPS_PORT is set to $UPS_PORT. Exposing custom port $UPS_PORT." 
+	export PORT=$UPS_PORT 
+fi
+
 if [ -z "$API_PASSWORD" ]
 then
    API_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
@@ -22,19 +32,19 @@ LISTEN 0.0.0.0 3493
 EOF
 
 cat >/etc/nut/upsd.users <<EOF
-[admin]
+[$ADMIN_USER]
 	password = $ADMIN_PASSWORD
 	actions = set
 	actions = fsd
 	instcmds = all
 
-[monitor]
+[$API_USER]
 	password = $API_PASSWORD
 	upsmon master
 EOF
 
 cat >/etc/nut/upsmon.conf <<EOF
-MONITOR $UPS_NAME@localhost 1 monitor $API_PASSWORD master
+MONITOR $UPS_NAME@localhost 1 $API_USER $API_PASSWORD master
 SHUTDOWNCMD "$SHUTDOWN_CMD"
 EOF
 
