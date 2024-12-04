@@ -43,7 +43,7 @@ services:
       - UPS_DRIVER="usbhid-ups"
       - UPS_PORT="auto"
       - API_USER="upsmon"
-	  - API_PASSWORD="secret"
+      - API_PASSWORD="secret"
       - ADMIN_USER="admin"
       - ADMIN_PASSWORD="adminSecret"
       - SHUTDOWN_CMD="my-shutdown-command-from-container"
