@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL maintainer="docker@viktorfreire"
 
-ENV NUT_VERSION 2.8.2
+ENV NUT_VERSION=2.8.2
 
 ENV UPS_NAME="ups"
 ENV UPS_DESC="eaton750i"
