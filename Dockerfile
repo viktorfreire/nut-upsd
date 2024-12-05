@@ -12,9 +12,7 @@ ENV DEFAULT_PORT=3493
 ENV UPS_PORT="auto"
 
 ENV API_USER="upsmon"
-ARG API_PASSWORD="secret"
 ENV ADMIN_USER="admin"
-ARG ADMIN_PASSWORD="adminSecret"
 
 ENV SHUTDOWN_CMD="/etc/nut/shutdown"
 
@@ -65,6 +63,7 @@ RUN set -ex; \
 
 COPY src/docker-entrypoint /usr/local/bin/
 COPY scripts/shutdown /etc/nut/
+
 ENTRYPOINT ["docker-entrypoint"]
 
 WORKDIR /var/run/nut

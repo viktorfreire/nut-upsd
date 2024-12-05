@@ -12,12 +12,16 @@ fi
 
 if [ -z "$API_PASSWORD" ]
 then
-   API_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+	API_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+else
+	API_PASSWORD=$(cat /run/secrets/api_password)
 fi
 
 if [ -z "$ADMIN_PASSWORD" ]
 then
-   ADMIN_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+	ADMIN_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+else
+	ADMIN_PASSWORD=$(cat /run/secrets/admin_password)
 fi
 
 cat >/etc/nut/ups.conf <<EOF

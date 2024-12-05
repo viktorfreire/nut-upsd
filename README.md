@@ -37,18 +37,15 @@ services:
     pull_policy: always
     image: viktorfreire/nut-upsd
     network_mode: "host"
-    build:
-      context: .
-      args:
-        - API_PASSWORD="secret"
-        - ADMIN_PASSWORD="adminSecret"
     environment:
       - UPS_NAME="ups"
       - UPS_DESC="eaton570i"
       - UPS_DRIVER="usbhid-ups"
       - UPS_PORT="auto"
       - API_USER="upsmon"
+      - API_PASSWORD="secret"
       - ADMIN_USER="admin"
+      - ADMIN_PASSWORD="adminSecret"
       - SHUTDOWN_CMD="my-shutdown-command-from-container"
     devices:
       - /dev/bus/usb/001/001
