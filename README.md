@@ -9,12 +9,11 @@ This image provides a complete UPS monitoring service (USB driver only).
 Start directly the container:
 
 ```console
-# Example with default values 
+# Example 
 docker run \
 	--name nut-upsd \
-	--detach \
-	--publish 3493:3493 \
-	--device /dev/bus/usb/001/001 \
+  --network host \ 
+  -v nut_data:/nut \
 	--env UPS_NAME="ups" \
 	--env UPS_DESC="eaton570i" \
 	--env UPS_DRIVER="usbhid-ups" \
@@ -24,12 +23,15 @@ docker run \
 	--env ADMIN_USER="admin" \
 	--env ADMIN_PASSWORD="adminSecret" \
 	--env SHUTDOWN_CMD="my-shutdown-command-from-container" \
+	--device /dev/bus/usb/001/001 \
+  --restart unless-stopped \
+  --detach \
 	viktorfreire/nut-upsd
 ```
 
 Start the container using Docker Compose
 ```console
-#Example with default values
+#Example
 version: "3.4"
 services:
   nut-upsd:
@@ -37,6 +39,8 @@ services:
     pull_policy: always
     image: viktorfreire/nut-upsd
     network_mode: "host"
+    volumes:
+      - nut_data:/nut
     environment:
       - UPS_NAME="ups"
       - UPS_DESC="eaton570i"
@@ -51,6 +55,10 @@ services:
       - /dev/bus/usb/001/001
     restart: unless-stopped
 ```
+
+## Dedicate persistant volume
+
+Withing the latest updates was introduced the possibility to use dedicated volume instead of using the OS directories, with this I make it possible to have persistante data.
 
 ## Auto configuration via environment variables
 
@@ -106,7 +114,7 @@ This is the password for the admin user.
 
 ### SHUTDOWN_CMD
 
-*Default vaue*: `echo 'System shutdown not configured!'`
+*Default vaue*: `runs an script that shutdown the server where NUT is running`
 
 This is the command upsmon will run when the system needs to be brought down. The command will be run from inside the container.
-Can also be provided the location of the script that it's intended to be executed when the UPS is running low battery lvl.
+It's possible to provide the location of the script that it's intended to be executed when the UPS is running low battery lvl, for that the script need to be stored in the /nut/scripts/ folder.

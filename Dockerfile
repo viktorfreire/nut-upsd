@@ -14,7 +14,7 @@ ENV UPS_PORT="auto"
 ENV API_USER="upsmon"
 ENV ADMIN_USER="admin"
 
-ENV SHUTDOWN_CMD="/etc/nut/shutdown"
+ENV SHUTDOWN_CMD="/nut/scripts/shutdown"
 
 RUN set -ex; \
 	# run dependencies
@@ -61,11 +61,10 @@ RUN set -ex; \
 	rm -rf /tmp/nut-$NUT_VERSION.tar.gz /tmp/nut-$NUT_VERSION; \
 	apk del .build-deps
 
-COPY src/docker-entrypoint /usr/local/bin/
-COPY scripts/shutdown /etc/nut/
+COPY src/docker-entrypoint /nut/data/
+COPY scripts/shutdown /nut/scripts/
 
-ENTRYPOINT ["docker-entrypoint"]
+ENTRYPOINT ["nut/data/docker-entrypoint"]
 
-WORKDIR /var/run/nut
-
+WORKDIR /nut
 EXPOSE 3493

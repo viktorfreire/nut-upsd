@@ -24,18 +24,18 @@ else
 	ADMIN_PASSWORD=$(cat /run/secrets/admin_password)
 fi
 
-cat >/etc/nut/ups.conf <<EOF
+cat >/nut/data/ups.conf <<EOF
 [$UPS_NAME]
 	desc = "$UPS_DESC"
 	driver = $UPS_DRIVER
 	port = $UPS_PORT
 EOF
 
-cat >/etc/nut/upsd.conf <<EOF
+cat >/nut/data/upsd.conf <<EOF
 LISTEN 0.0.0.0 3493
 EOF
 
-cat >/etc/nut/upsd.users <<EOF
+cat >/nut/data/upsd.users <<EOF
 [$ADMIN_USER]
 	password = $ADMIN_PASSWORD
 	actions = set
@@ -47,13 +47,13 @@ cat >/etc/nut/upsd.users <<EOF
 	upsmon master
 EOF
 
-cat >/etc/nut/upsmon.conf <<EOF
+cat >/nut/data/upsmon.conf <<EOF
 MONITOR $UPS_NAME@localhost 1 $API_USER $API_PASSWORD master
 SHUTDOWNCMD "$SHUTDOWN_CMD"
 EOF
 
-chgrp -R nut /etc/nut /dev/bus/usb
-chmod -R o-rwx /etc/nut
+chgrp -R nut /nut /dev/bus/usb
+chmod -R o-rwx /nut
 
 /usr/sbin/upsdrvctl start
 /usr/sbin/upsd
