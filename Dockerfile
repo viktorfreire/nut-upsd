@@ -12,11 +12,11 @@ ENV DEFAULT_PORT=3493
 ENV UPS_PORT="auto"
 
 ENV API_USER="upsmon"
-ENV API_PASSWORD="secret"
+ARG API_PASSWORD="secret"
 ENV ADMIN_USER="admin"
-ENV ADMIN_PASSWORD="adminSecret"
+ARG ADMIN_PASSWORD="adminSecret"
 
-ENV SHUTDOWN_CMD="echo 'System shutdown not configured!'"
+ENV SHUTDOWN_CMD="/etc/nut/shutdown"
 
 RUN set -ex; \
 	# run dependencies
